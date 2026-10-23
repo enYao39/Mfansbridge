@@ -1,0 +1,14 @@
+.gradle/
+**/build/
+local.properties
+.env
+.env.*
+**/google-services.json
+**/*credential*.json
+**/*secret*.json
+**/*private*.json
+*.jks
+*.keystore
+*.apk
+*.aab
+*.log

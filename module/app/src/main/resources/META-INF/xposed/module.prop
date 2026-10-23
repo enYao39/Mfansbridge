@@ -1,0 +1,11 @@
+id=piliplus-push
+name=PiliPlus Push
+version=0.1.17
+versionCode=18
+author=codex, mikufans
+description=MiPush registration and XMSF notification relay for PiliPlus.
+minApiVersion=102
+targetApiVersion=102
+staticScope=true
+exceptionMode=protective
+autoHotReload=false

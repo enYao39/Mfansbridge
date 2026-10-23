@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="local.piliplus.push">
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <queries>
+        <package android:name="com.xiaomi.xmsf" />
+        <package android:name="com.example.piliplus" />
+        <package android:name="com.example.piliplus.debug" />
+        <package android:name="com.example.piliplus.dev" />
+        <package android:name="local.piliplus.push" />
+    </queries>
+    <application
+        android:allowBackup="false"
+        android:hasCode="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="PiliPlus Push"
+        android:supportsRtl="true">
+        <activity
+            android:name="local.piliplus.push.ModuleStatusActivity"
+            android:exported="true">
+            <!-- Keep a front-door activity for LSPosed's "open module" action.
+                 CATEGORY_INFO is not shown in the launcher, but PackageManager can
+                 still resolve it. -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.INFO" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- Compatibility with managers that look for the legacy Xposed settings
+                 category before falling back to getLaunchIntentForPackage(). -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="settings"
+                    android:scheme="pilipluspush" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="local.piliplus.push.LauncherEntryActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:enabled="true"
+            android:exported="true"
+            android:label="PiliPlus Push"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <service
+            android:name="local.piliplus.push.PushRelayService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="local.piliplus.push.MainAccountStateReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="local.piliplus.push.BILI_PUSH_TOKEN_RESULT" />
+                <action android:name="local.piliplus.push.BILI_LINK_SETTINGS_RESULT" />
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name="local.piliplus.push.DebugSettingsProvider"
+            android:authorities="local.piliplus.push.debugsettings"
+            android:exported="true" />
+    </application>
+</manifest>
